@@ -1,0 +1,15 @@
+{
+  "name": "week-1",
+  "version": "1.0.0",
+  "description": "Week 1 ",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sivasai",
+  "license": "ISC",
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0"
+  }
+}
