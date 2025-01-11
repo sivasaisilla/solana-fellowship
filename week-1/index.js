@@ -39,5 +39,34 @@ async function main() {
   console.log("Transfer Signature", signature);
 }
 
-main()
+async function getAirDrop() {
+    const connection = new Connection("https://api.devnet.solana.com");
+    const payer = Keypair.fromSecretKey(
+      Uint8Array.from([
+        161, 116, 183, 144, 196, 104, 130, 173, 148, 10, 243, 133, 176, 212, 53,
+        205, 63, 133, 64, 153, 249, 4, 108, 2, 93, 162, 103, 116, 184, 15, 174,
+        29, 234, 138, 73, 220, 167, 146, 167, 123, 117, 169, 92, 169, 215, 246,
+        203, 130, 39, 125, 45, 56, 80, 245, 99, 61, 127, 210, 165, 71, 161, 181,
+        194, 166,
+      ])
+    );
+    console.log("payer ", payer.publicKey.toBase58());
+    let balance = await connection.getBalance(payer.publicKey);
+    console.log("Balance", balance);
+  
+    var fromAirdropSignature = await connection.requestAirdrop(
+      payer.publicKey,
+      LAMPORTS_PER_SOL * 2
+    );
+    const latestBlockhash = await connection.getLatestBlockhash();
+  
+    await connection.confirmTransaction({
+      blockhash: latestBlockhash,
+      lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+      signature: fromAirdropSignature,
+    });
+    balance = await connection.getBalance(payer.publicKey);
+    console.log("balance ", balance);
+  }
+  
 
